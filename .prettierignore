@@ -1,0 +1,17 @@
+node_modules
+dist/
+.turbo
+**/*/routeTree.gen.ts
+ios/
+android/
+.expo/
+**/expo-env.d.ts
+**/skills/**/*.md
+
+libs/schemas/src/dbSchemas.gen.ts
+libs/schemas/src/dbSchemas.gen.d.ts
+libs/schemas/src/dbTypes.gen.ts
+apps/supabase/supabase/functions/_shared/schemas/dbSchemas.gen.ts
+apps/supabase/supabase/functions/_shared/schemas/dbSchemas.gen.d.ts
+apps/supabase/supabase/functions/_shared/schemas/dbTypes.gen.ts
+apps/supabase/.snaplet/dataModel.json

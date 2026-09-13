@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: ms-supa-react
+    runtime: static
+    staticPublishPath: ./apps/web/dist
+    pullRequestPreviewsEnabled: true
+    buildCommand: pnpm install; pnpm dlx @dotenvx/dotenvx run -f .env.development -- pnpm in:web build;
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: SKIP_INSTALL_DEPS
+        value: "true"
+      - key: PAGECRYPT_PASSWORD
+        sync: false
+      - fromGroup: <environment_group_name_from_render>

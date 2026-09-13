@@ -1,0 +1,15 @@
+{
+  "errorFallback": {
+    "description": "An error occurred while loading the page.",
+    "resetCta": "Try again",
+    "title": "Error"
+  },
+  "goToSandbox": "Go to the sandbox",
+  "login": {
+    "errors": {
+      "unauthorized": "You are not authorized to access this application."
+    },
+    "subtitle": "Build out your login card here.",
+    "title": "Login"
+  }
+}

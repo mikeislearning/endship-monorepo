@@ -1,0 +1,32 @@
+{
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "deno.enablePaths": ["./apps/supabase/supabase/functions"],
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": "explicit",
+    "source.fixAll.eslint": "always"
+  },
+  "editor.formatOnSave": true,
+  "editor.wordWrap": "on",
+  "eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
+  "eslint.workingDirectories": [
+    { "pattern": "./apps/*/" },
+    { "pattern": "./libs/*/" },
+    { "pattern": "./tooling/*/" }
+  ],
+  "files.readonlyInclude": {
+    "**/routeTree.gen.ts": true
+  },
+  "files.watcherExclude": {
+    "**/routeTree.gen.ts": true
+  },
+  "i18n-ally.localesPaths": ["libs/i18n/src", "../../libs/i18n/src"],
+  "search.exclude": {
+    "**/routeTree.gen.ts": true
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ]
+}

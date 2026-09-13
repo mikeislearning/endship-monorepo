@@ -1,0 +1,26 @@
+{
+  "name": "@libs/schemas",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "git clean -xdf .turbo node_modules dist",
+    "format": "prettier --check . --ignore-path ../../.prettierignore",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
+    "gen-schemas": "pnpm dlx supazod -i ./src/dbTypes.gen.ts -o ./src/dbSchemas.gen.ts -t ./src/dbSchemas.gen.d.ts -s public && node scripts/fixImports.cjs"
+  },
+  "dependencies": {
+    "@libs/i18n": "workspace:*",
+    "i18next": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@tooling/prettier-config": "workspace:*",
+    "@tooling/tsconfig": "workspace:*",
+    "supazod": "^4.5.0"
+  },
+  "prettier": "@tooling/prettier-config"
+}

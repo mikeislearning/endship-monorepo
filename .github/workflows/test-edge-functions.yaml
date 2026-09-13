@@ -1,0 +1,62 @@
+# ✍️ Description:
+# This workflow runs unit tests for Supabase edge functions when changes are made to the supabase app.
+# It starts a local Supabase stack, explicitly serves the edge functions, and waits for them to be
+# available before running the full test suite.
+
+# 🚨 GITHUB SECRETS REQUIRED: None
+
+name: "Test Supabase edge functions"
+on:
+  pull_request:
+    paths:
+      - "apps/supabase/**"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+env:
+  DO_NOT_TRACK: 1
+  FORCE_COLOR: 3
+  VAULT_SB_URL: "http://host.docker.internal:54321"
+  VAULT_SB_PUBLISHABLE_KEY: ""
+  VAULT_SB_SECRET_KEY: ""
+
+jobs:
+  tests:
+    name: "Unit tests"
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: Checkout code 🛒
+        uses: actions/checkout@v5
+
+      - name: Setup ⚙️
+        uses: ./tooling/github/setup
+
+      - name: Supabase CLI Setup ⚙️
+        uses: supabase/setup-cli@v2
+        with:
+          version: latest
+
+      - name: Start Supabase ▶️
+        run: supabase start
+        working-directory: apps/supabase
+
+      # Supabase functions are not consistently being served from just starting the stack.
+      # This workaround explicitly serves the functions and waits for them to be available by waiting for a 2xx response from the health-check function.
+      # If no response is received in 1 minute, the action will fail.
+      - name: Wait for functions to be served ⏳
+        uses: JarvusInnovations/background-action@v1
+        with:
+          run: pnpm in:supabase fn:serve &
+          wait-on: |
+            http-get://127.0.0.1:54321/functions/v1/health-check
+          tail: true
+          log-output-resume: stderr
+          wait-for: 1m
+          log-output: true
+          log-output-if: failure
+
+      - name: Run Tests 🧪
+        run: pnpm in:supabase fn:test

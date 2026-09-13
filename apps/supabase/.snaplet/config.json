@@ -1,0 +1,4 @@
+{
+  "adapter": "pg",
+  "projectDescription": "Supabase Monorepo Template"
+}

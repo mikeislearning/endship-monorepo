@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
+  },
+  "exclude": ["node_modules"],
+  "extends": "@tooling/tsconfig/libs.json",
+  "include": ["*.ts", "src", "scripts"]
+}

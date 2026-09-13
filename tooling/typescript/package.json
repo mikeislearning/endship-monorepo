@@ -1,0 +1,11 @@
+{
+  "name": "@tooling/tsconfig",
+  "private": true,
+  "version": "1.0.0",
+  "files": [
+    "*.json"
+  ],
+  "devDependencies": {
+    "ts-plugin-sort-import-suggestions": "^1.0.4"
+  }
+}

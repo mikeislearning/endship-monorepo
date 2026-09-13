@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "i18next": "npm:i18next@25.7.3",
+    "zod": "npm:zod@4.4.3"
+  },
+  "nodeModulesDir": "none"
+}

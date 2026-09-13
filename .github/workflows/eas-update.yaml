@@ -1,0 +1,81 @@
+# 🔗 Links:
+# Source file: https://github.com/MindSea/monorepo-template/blob/main/.github/workflows/eas-update.yaml
+
+# ✍️ Description:
+# This workflow publishes Expo OTA updates using EAS Update.
+# It is manually triggered and supports selecting environment + platform.
+
+# 🚨 GITHUB SECRETS REQUIRED:
+# - EXPO_TOKEN: Required for authenticating with Expo/EAS services
+
+name: "Publish Expo OTA Update"
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment channel to publish to"
+        required: true
+        default: development
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+      platform:
+        description: "Platform to publish update for"
+        required: true
+        default: all
+        type: choice
+        options:
+          - android
+          - ios
+          - all
+      message:
+        description: "Update message"
+        required: false
+        type: string
+      eas_project_id:
+        description: "EAS project ID (optional, overrides app config default)"
+        required: false
+        type: string
+
+concurrency: eas-update-${{ github.event.inputs.environment || 'development' }}
+
+env:
+  DO_NOT_TRACK: 1
+  FORCE_COLOR: 3
+  EXPO_NO_DOTENV: 1
+
+jobs:
+  update:
+    name: "Publish OTA to ${{ github.event.inputs.environment || 'development' }}"
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: ${{ github.event.inputs.environment || 'development' }}
+      PLATFORM: ${{ github.event.inputs.platform || 'all' }}
+      UPDATE_MESSAGE: ${{ github.event.inputs.message || format('OTA update from {0}', github.sha) }}
+      EXPO_PUBLIC_EAS_PROJECT_ID: ${{ github.event.inputs.eas_project_id || '' }}
+    steps:
+      - name: Checkout code 🛒
+        uses: actions/checkout@v5
+
+      - name: Setup ⚙️
+        uses: ./tooling/github/setup
+
+      - name: Setup EAS 🏗
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Inject environment variables 🧬
+        run: pnpm in:native inject-eas-variables ${{ env.ENVIRONMENT }}
+
+      - name: Publish update 🚀
+        working-directory: apps/native
+        run: |
+          eas update \
+            --channel ${{ env.ENVIRONMENT }} \
+            --platform ${{ env.PLATFORM }} \
+            --non-interactive \
+            --message "${{ env.UPDATE_MESSAGE }}"

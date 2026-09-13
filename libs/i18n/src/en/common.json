@@ -1,0 +1,85 @@
+{
+  "cancel": "Cancel",
+  "clearFilters": "Clear Filters",
+  "close": "Close",
+  "continue": "Continue",
+  "dateOfBirth": "Date of birth",
+  "datetime": {
+    "daysWithCount_one": "{{count}} day",
+    "daysWithCount_other": "{{count}} days",
+    "monthsWithCount_one": "{{count}} month",
+    "monthsWithCount_other": "{{count}} months",
+    "yearsWithCount_one": "{{count}} year",
+    "yearsWithCount_other": "{{count}} years"
+  },
+  "day": "Day",
+  "delete": "Delete",
+  "discardFormChangesDialog": {
+    "cancelButton": "Back to editing",
+    "confirmButton": "Leave anyway",
+    "creating": "creating",
+    "description": "There are unsaved changes to the {{entity}} you are {{action}}. If you leave this page you will lose your progress.",
+    "entity": "entity",
+    "title": "Are you sure you want to leave?",
+    "updating": "editing"
+  },
+  "done": "Done",
+  "edit": "Edit",
+  "email": "Email",
+  "errorFallback": {
+    "description": "An error occurred while loading the page.",
+    "resetCta": "Try again",
+    "title": "Error"
+  },
+  "errors": {
+    "unauthorized": "You are not authorized to perform this action.",
+    "unknown": "An unknown error occurred. Please try again."
+  },
+  "female": "Female",
+  "home": "Home",
+  "list": {
+    "empty": "No items found"
+  },
+  "loadingError": "An error occurred while loading your data.\nPlease log out and try again.",
+  "logout": "Logout",
+  "male": "Male",
+  "month": "Month",
+  "noResults": "No results found",
+  "ok": "OK",
+  "open": "Open",
+  "pagination": {
+    "goToFirstPage": "Go to first page",
+    "goToLastPage": "Go to last page",
+    "goToNextPage": "Go to next page",
+    "goToPreviousPage": "Go to previous page",
+    "morePages": "More pages",
+    "pagination": "Pagination",
+    "rowsPerPage": "Rows per page",
+    "rowsResults": "{{from}} to {{to}} of {{total}} results",
+    "showingPrefix": "Showing "
+  },
+  "save": "Save",
+  "saveChanges": "Save changes",
+  "share": "Share",
+  "sidebar": {
+    "title": "Sidebar",
+    "toggle": "Toggle sidebar"
+  },
+  "signOut": "Sign out",
+  "theme": "Theme",
+  "time": {
+    "am": "AM",
+    "pm": "PM"
+  },
+  "validation": {
+    "atLeastOneOption": "At least one option must be selected",
+    "invalidEmail": "Invalid email",
+    "invalidNumber": "Invalid number",
+    "invalidPassword": "The password is invalid",
+    "numberMustBeNonNegative": "Number must be non-negative",
+    "requiredField": "This field is required",
+    "requiredFields": "These fields are required",
+    "requiredNonNegative": "Invalid number"
+  },
+  "year": "Year"
+}

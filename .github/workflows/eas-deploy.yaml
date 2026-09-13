@@ -1,0 +1,72 @@
+# 🔗 Links:
+# Source file: https://github.com/MindSea/monorepo-template/blob/main/.github/workflows/eas-deploy.yaml
+
+# ✍️ Description:
+# This workflow deploys the React Native app to EAS (Expo Application Services).
+# It can be manually triggered with options to choose the deployment environment (development/staging/production)
+# and platform (iOS/Android/all). The workflow builds and submits the app to the respective app stores.
+
+# 🚨 GITHUB SECRETS REQUIRED:
+# - EXPO_TOKEN: Required for authenticating with Expo/EAS services
+
+name: "Deploy app to EAS"
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy to"
+        required: true
+        default: development
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+      platform:
+        description: "Platform to deploy to"
+        required: true
+        default: all
+        type: choice
+        options:
+          - ios
+          - android
+          - all
+
+concurrency: eas-deploy
+
+env:
+  DO_NOT_TRACK: 1
+  FORCE_COLOR: 3
+  EXPO_NO_DOTENV: 1
+
+jobs:
+  deploy:
+    name: "Deploy to ${{ github.event.inputs.environment || 'development' }}"
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: ${{ github.event.inputs.environment || 'development' }}
+      PLATFORM: ${{ github.event.inputs.platform || 'all' }}
+    steps:
+      - name: Checkout code 🛒
+        uses: actions/checkout@v5
+
+      - name: Setup ⚙️
+        uses: ./tooling/github/setup
+
+      - name: Setup EAS 🏗
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Inject environment variables 🧬
+        run: pnpm in:native inject-eas-variables ${{ env.ENVIRONMENT }}
+
+      - name: Deploy to EAS 🚀
+        working-directory: apps/native
+        run: |
+          if [ "${{ env.ENVIRONMENT }}" != "development" ]; then
+            eas build --platform ${{ env.PLATFORM }} --profile ${{ env.ENVIRONMENT }} --non-interactive --no-wait --auto-submit
+          else
+            eas build --platform ${{ env.PLATFORM }} --profile development --non-interactive --no-wait
+          fi

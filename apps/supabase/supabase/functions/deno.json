@@ -1,0 +1,21 @@
+{
+  "imports": {
+    "@/data/": "./_shared/data/",
+    "@/middleware/": "./_shared/middleware/",
+    "@/schemas/": "./_shared/schemas/",
+    "@/services/": "./_shared/services/",
+    "@/utils/": "./_shared/utils/",
+    "@casl/ability": "npm:@casl/ability@6.7.3",
+    "@hono/zod-validator": "npm:@hono/zod-validator@0.8.0",
+    "@libs/authorization": "../../../../libs/authorization/src/index.ts",
+    "@libs/i18n": "../../../../libs/i18n/src/index.ts",
+    "@libs/schemas": "../../../../libs/schemas/src/index.ts",
+    "@test/assert": "jsr:@std/assert@1",
+    "hono": "npm:hono@4.12.23",
+    "hono/factory": "npm:hono@4.12.23/factory",
+    "i18next": "npm:i18next@25.7.3",
+    "sentry": "npm:@sentry/deno@10.32.1",
+    "supabase-js": "jsr:@supabase/supabase-js@2",
+    "zod": "npm:zod@4.4.3"
+  }
+}

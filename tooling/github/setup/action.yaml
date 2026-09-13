@@ -1,0 +1,25 @@
+name: "Setup"
+description: "Setup environment for CI/CD workflows"
+
+runs:
+  using: composite
+  steps:
+    - name: Install pnpm 📦
+      uses: pnpm/action-setup@v6
+      with:
+        version: 10.33.3
+
+    - name: Set up Node.js ⚙️
+      uses: actions/setup-node@v5
+      with:
+        node-version: 24
+        cache: pnpm
+
+    - name: Install dependencies 🚚
+      shell: bash
+      run: pnpm install
+
+    - name: Install deno 🦕
+      uses: denoland/setup-deno@v2
+      with:
+        deno-version: v2.1.4

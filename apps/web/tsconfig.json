@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "inlineSources": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "sourceMap": true,
+    "sourceRoot": "/"
+  },
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}

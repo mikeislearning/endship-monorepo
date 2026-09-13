@@ -1,0 +1,63 @@
+{
+  "folders": [
+    {
+      "name": "☯️ supabase-monorepo-template",
+      "path": ".",
+    },
+    {
+      "name": "📱 @apps/native",
+      "path": "apps/native",
+    },
+    {
+      "name": "🕸️ @apps/web",
+      "path": "apps/web",
+    },
+    {
+      "name": "🚀 @apps/supabase",
+      "path": "apps/supabase",
+    },
+    {
+      "name": "🌎 @libs/i18n",
+      "path": "libs/i18n",
+    },
+    {
+      "name": "📦 @libs/schemas",
+      "path": "libs/schemas",
+    },
+    {
+      "name": "📦 @tooling",
+      "path": "tooling",
+    },
+  ],
+  "settings": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.addMissingImports.ts": "explicit",
+    },
+    "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+    "js/ts.tsdk.path": "node_modules/typescript/lib",
+    "i18n-ally.keystyle": "nested",
+    "i18n-ally.enabledFrameworks": ["i18next", "react"],
+    "i18n-ally.enabledParsers": ["json", "json5"],
+    "i18n-ally.namespace": true,
+    "i18n-ally.pathMatcher": "{locale}/{namespace}.json",
+    "i18n-ally.sortKeys": true,
+    "i18n-ally.extract.autoDetect": true,
+    "i18n-ally.autoDetection": true,
+    "terminal.integrated.cwd": "${workspaceFolder}",
+    "tailwindCSS.experimental.configFile": {
+      "apps/native/tailwind.config.js": "apps/native/src/**",
+      "apps/web/src/index.css": "apps/web/src/**",
+    },
+    "search.exclude": {
+      "**/.git": true,
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/.turbo": true,
+    },
+    "i18n-ally.localesPaths": ["libs/i18n/src", "../../libs/i18n/src"],
+    "js/ts.preferences.includePackageJsonAutoImports": "on",
+  },
+}

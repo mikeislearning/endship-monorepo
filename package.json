@@ -1,0 +1,49 @@
+{
+  "name": "supabase-monorepo-template",
+  "private": true,
+  "scripts": {
+    "initial-setup": "pnpm run setup && jiti scripts/setup.ts && pnpm remove @clack/prompts picocolors replace-in-file jiti",
+    "setup": "pnpm install && cp .env.example .env.development.local",
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "clean": "git clean -xdf node_modules",
+    "clean:ws": "turbo clean",
+    "in:native": "pnpm --filter=@apps/native",
+    "in:web": "pnpm --filter=@apps/web",
+    "in:supabase": "pnpm --filter=@apps/supabase",
+    "in:schemas": "pnpm --filter=@libs/schemas",
+    "format": "turbo format --cache-dir=.turbo --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
+    "format:fix": "turbo format --cache-dir=.turbo --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
+    "lint": "turbo lint --cache-dir=.turbo && pnpm lint:ws",
+    "lint:fix": "turbo lint --cache-dir=.turbo --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
+    "lint:ws": "npx -y sherif@latest -i tailwind*",
+    "typecheck": "turbo typecheck --cache-dir=.turbo",
+    "check-all": "pnpm format && pnpm lint && pnpm typecheck && echo '🎉 All checks passed!'",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@clack/prompts": "^1.7.0",
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
+    "@dotenvx/dotenvx": "^2.19.1",
+    "@tooling/prettier-config": "workspace:*",
+    "@types/node": "catalog:",
+    "husky": "^9.1.7",
+    "jiti": "^2.7.0",
+    "picocolors": "^1.1.1",
+    "prettier": "catalog:",
+    "replace-in-file": "^9.0.0",
+    "turbo": "^2.10.8",
+    "typescript": "catalog:"
+  },
+  "packageManager": "pnpm@10.33.3",
+  "prettier": "@tooling/prettier-config",
+  "resolutions": {
+    "lightningcss": "1.27.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "zod-validation-error": "^4.0.0"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "login": {
+    "errors": {
+      "unknown": "There was an error logging in. Please try again."
+    }
+  },
+  "notFound": {
+    "cta": "Go Home",
+    "description": "The page you are looking for does not exist.",
+    "title": "Not Found"
+  }
+}

@@ -1,0 +1,4 @@
+[tools]
+pnpm = "latest"
+node = "24"
+deno = "2.1.4"

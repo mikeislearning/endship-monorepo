@@ -1,0 +1,45 @@
+{
+  "build": {
+    "base": {
+      "android": {
+        "image": "latest",
+        "resourceClass": "medium"
+      },
+      "ios": {
+        "image": "latest",
+        "resourceClass": "m-medium"
+      }
+    },
+    "development": {
+      "channel": "development",
+      "distribution": "internal",
+      "env": {
+        "APP_ENV": "development"
+      },
+      "extends": "base"
+    },
+    "production": {
+      "autoIncrement": true,
+      "channel": "production",
+      "distribution": "store",
+      "env": {
+        "APP_ENV": "production"
+      },
+      "extends": "base"
+    },
+    "staging": {
+      "autoIncrement": true,
+      "channel": "staging",
+      "distribution": "store",
+      "env": {
+        "APP_ENV": "staging"
+      },
+      "extends": "base"
+    }
+  },
+  "cli": {
+    "appVersionSource": "remote",
+    "version": ">= 9.0.6"
+  },
+  "submit": {}
+}

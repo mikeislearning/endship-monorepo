@@ -1,0 +1,99 @@
+# ✍️ Description:
+# This workflow deploys Supabase database migrations, secrets, and edge functions to the specified environment.
+# By default it deploys to development on push to main, but can also deploy to staging or production from a manual trigger.
+# It decrypts environment secrets via dotenvx before pushing them to Supabase.
+
+# 🚨 GITHUB SECRETS REQUIRED:
+# - SUPABASE_ACCESS_TOKEN: Required for authenticating with Supabase CLI to link and deploy to the project
+# - DOTENV_PRIVATE_KEY: Required for decrypting environment secrets via dotenvx
+name: Deploy Supabase
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**/*.md"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy to"
+        required: true
+        default: development
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+
+concurrency: deploy-supabase-${{ github.event.inputs.environment || 'development' }}
+
+jobs:
+  deploy:
+    name: "Deploy to ${{ github.event.inputs.environment || 'development' }}"
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'development' }}
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+    steps:
+      - name: Checkout code 🛒
+        uses: actions/checkout@v5
+
+      - name: Setup ⚙️
+        uses: ./tooling/github/setup
+
+      - name: Parse environment variable 🧩
+        run: |
+          if [[ "${{ github.event.inputs.environment }}" == "staging" ]]; then
+            echo "DOTENV_PRIVATE_KEY_STAGING=${{ secrets.DOTENV_PRIVATE_KEY }}" >> $GITHUB_ENV
+            echo "::add-mask::$DOTENV_PRIVATE_KEY_STAGING"
+          elif [[ "${{ github.event.inputs.environment }}" == "production" ]]; then
+            echo "DOTENV_PRIVATE_KEY_PRODUCTION=${{ secrets.DOTENV_PRIVATE_KEY }}" >> $GITHUB_ENV
+            echo "::add-mask::$DOTENV_PRIVATE_KEY_STAGING"
+          else
+            echo "DOTENV_PRIVATE_KEY_DEVELOPMENT=${{ secrets.DOTENV_PRIVATE_KEY }}" >> $GITHUB_ENV
+            echo "::add-mask::$DOTENV_PRIVATE_KEY_DEVELOPMENT"
+          fi
+
+      - name: Decrypt Secrets 🔐
+        run: |
+          curl -sfS https://dotenvx.sh/install.sh | sh
+          dotenvx get  --format shell | tr ' ' '\n' > .env
+          while read -r line; do
+            # Skip blank lines and comment lines
+            [[ -z "$line" || "$line" =~ ^# ]] && continue
+
+            value=$(echo "$line" | sed -n 's/^[^=]*=\(.*\)/\1/p')
+            key=$(echo "$line" | sed -n 's/^\([^=]*\)=.*/\1/p')
+            if [[ $key == SB_* ]]; then
+                key=$(echo "$key" | sed 's/^SB_/SUPABASE_/')
+                line="$key=$value"
+            fi
+            echo "::add-mask::$value"
+            echo "$line" >> $GITHUB_ENV
+          done < .env
+
+      - name: Supabase CLI Setup ⚙️
+        uses: supabase/setup-cli@v2
+        with:
+          version: latest
+
+      - name: Link Project 🔗
+        run: supabase link --project-ref $SUPABASE_PROJECT_ID
+
+      - name: Disable Vault Secrets 🛡️
+        run: bash ./apps/supabase/scripts/disableVaultSecrets.sh
+
+      - name: Deploy Database Migrations 🚀
+        working-directory: apps/supabase
+        run: supabase db push --db-url $SUPABASE_DB_CONNECTION_STRING
+
+      - name: Publish secrets to Supabase 🔑
+        working-directory: apps/supabase
+        run: |
+          sed -i '/^SB_/d' ../../.env
+          supabase secrets set --env-file ../../.env
+
+      - name: Deploy Edge Functions 🚀
+        working-directory: apps/supabase
+        run: supabase functions deploy

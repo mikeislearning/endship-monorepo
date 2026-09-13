@@ -1,0 +1,42 @@
+{
+  "name": "@apps/supabase",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "in:schemas": "pnpm --filter=@libs/schemas",
+    "sb:status": "supabase status",
+    "sb:start": "pnpm run with-env supabase status || pnpm run with-env supabase start",
+    "sb:stop": "supabase stop",
+    "sb:login": "supabase login",
+    "sb:link": "SB_PROJECT_ID=$(dotenvx get SB_PROJECT_ID -f ../../.env.development) SB_DB_PASSWORD=$(dotenvx get SB_DB_PASSWORD -f ../../.env.development) && pnpm run with-env supabase link --project-ref $SB_PROJECT_ID --password $SB_DB_PASSWORD",
+    "db:gen-migration": "pnpm sb:stop && pnpm run with-env supabase db diff -f ",
+    "db:migrate": "pnpm sb:start && pnpm run with-env supabase migration up --include-all && pnpm db:gen-types && pnpm db:prepare-seed && pnpm run with-env supabase db start",
+    "db:reset": "pnpm run with-env supabase db reset && pnpm db:prepare-seed && pnpm run with-env supabase db reset && pnpm db:gen-types",
+    "db:test": "supabase db test",
+    "db:pull": "supabase db pull",
+    "db:gen-types": "supabase gen types typescript --local > ../../libs/schemas/src/dbTypes.gen.ts && pnpm in:schemas gen-schemas",
+    "db:prepare-seed": "npx @snaplet/seed sync && tsx supabase/seeds/seed.ts > supabase/seeds/seed.sql",
+    "format": "prettier --check . --ignore-path ../../.prettierignore",
+    "format:fix": "prettier --write . --ignore-path ../../.prettierignore",
+    "lint": "cd supabase/functions && deno lint **/*.ts",
+    "typecheck": "cd supabase/functions && deno check --import-map deno.json **/*.ts",
+    "fn:new": "supabase functions new",
+    "fn:serve": "supabase functions serve --env-file=../../.env.test",
+    "fn:test": "cd supabase/functions && deno test --allow-all tests/*-test.ts --env=../../../../.env.test --import-map deno.json",
+    "with-env": "dotenvx run -f ../../.env.development.local --"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "catalog:",
+    "dayjs": "catalog:"
+  },
+  "devDependencies": {
+    "@snaplet/copycat": "^6.0.0",
+    "@snaplet/seed": "^0.98.0",
+    "@tooling/prettier-config": "workspace:*",
+    "@types/pg": "^8.20.3",
+    "pg": "^8.22.0",
+    "tsx": "catalog:"
+  },
+  "prettier": "@tooling/prettier-config"
+}

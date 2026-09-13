@@ -1,0 +1,24 @@
+{
+  "name": "@libs/i18n",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "git clean -xdf .turbo node_modules dist",
+    "format": "prettier --check . --ignore-path ../../.prettierignore",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "i18next": "catalog:",
+    "react-i18next": "catalog:"
+  },
+  "devDependencies": {
+    "@tooling/eslint-config": "workspace:*",
+    "@tooling/prettier-config": "workspace:*",
+    "@tooling/tsconfig": "workspace:*"
+  },
+  "prettier": "@tooling/prettier-config"
+}

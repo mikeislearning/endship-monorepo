@@ -1,0 +1,11 @@
+{
+  "namingConfig": {
+    "capitalizeNames": true,
+    "capitalizeSchema": true,
+    "enumPattern": "{name}",
+    "functionArgsPattern": "{function}Args",
+    "functionReturnsPattern": "{function}Returns",
+    "separator": "",
+    "tableOperationPattern": "{operation}{table}Type"
+  }
+}

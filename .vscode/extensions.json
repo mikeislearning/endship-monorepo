@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "yoavbls.pretty-ts-errors",
+    "lokalise.i18n-ally",
+    "bradlc.vscode-tailwindcss",
+    "folke.vscode-monorepo-workspace",
+    "bocovo.dbml-erd-visualizer",
+    "matt-meyers.vscode-dbml",
+    "denoland.vscode-deno"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "checkJs": false,
+    "jsx": "react-native",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "moduleSuffixes": [".ios", ".android", ".web", ".native", ""],
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "strict": true,
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+    "types": ["node"]
+  },
+  "exclude": ["node_modules", "ios", "android"],
+  "extends": ["@tooling/tsconfig/base.json"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "eslint.config.mjs",
+    "nativewind-env.d.ts",
+    "app.config.ts"
+  ]
+}

@@ -1,0 +1,42 @@
+# ✍️ Description:
+# This workflow manually deploys the native web app to Render for the specified environment.
+# It triggers a Render deployment and tracks the GitHub deployment status.
+
+# 🚨 GITHUB SECRETS REQUIRED:
+# - RENDER_API_KEY: Required for authenticating with the Render API to trigger deployments
+
+name: Deploy Native Web App
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy to"
+        required: true
+        default: staging
+        type: choice
+        options:
+          - staging
+          - production
+
+concurrency: deploy-native-web-${{ github.event.inputs.environment }}
+
+env:
+  STAGING_SERVICE_ID: ""
+  PRODUCTION_SERVICE_ID: ""
+
+jobs:
+  deploy:
+    name: "Deploy to ${{ github.event.inputs.environment }}"
+    runs-on: ubuntu-latest
+    permissions:
+      deployments: write
+    steps:
+      - name: Deploy to Render 🌐
+        uses: JorgeLNJunior/render-deploy@v1.4.5
+        with:
+          service_id: ${{ github.event.inputs.environment == 'production' && env.PRODUCTION_SERVICE_ID || env.STAGING_SERVICE_ID }}
+          api_key: ${{ secrets.RENDER_API_KEY }}
+          github_deployment: true
+          deployment_environment: ${{ github.event.inputs.environment }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}

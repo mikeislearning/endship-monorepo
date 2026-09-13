@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "checkJs": false,
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
+  },
+  "exclude": ["node_modules"],
+  "extends": ["@tooling/tsconfig/base.json"],
+  "include": ["src"]
+}

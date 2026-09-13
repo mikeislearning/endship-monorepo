@@ -1,0 +1,9 @@
+apps/admins/src/routeTree.gen.ts linguist-generated
+libs/schemas/src/supabase/dbTypes.gen.ts linguist-generated
+libs/schemas/src/schemas/dbSchemas.gen.ts linguist-generated
+libs/schemas/src/schemas/dbSchemas.gen.d.ts linguist-generated
+apps/supabase/.snaplet/dataModel.json linguist-generated
+apps/supabase/supabase/seeds/seed.sql linguist-generated
+
+.agents/** linguist-generated
+.claude/** linguist-generated
